@@ -1,0 +1,36 @@
+from pydantic import BaseModel
+
+
+class OperatorBase(BaseModel):
+    name: str
+    weapon_id: int
+    nationality: str
+
+
+class OperatorCreate(OperatorBase):
+    pass
+
+
+class Operator(OperatorBase):
+    id: int
+    weapon_id: int
+    nationality: str
+    class Config:
+        orm_mode = True
+
+
+class WeaponBase(BaseModel):
+    name: str
+    type: str
+
+
+class WeaponCreate(WeaponBase):
+    pass
+
+
+class Weapon(WeaponBase):
+    id: int
+    name: str
+    type: str
+    class Config:
+        orm_mode = True
