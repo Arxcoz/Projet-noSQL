@@ -8,10 +8,13 @@ class Operators(Base):
     __tablename__ = "operators"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True, index=True)
     weapon_id = Column(Integer, ForeignKey("weapons.id"))
+    gq_id = Column(Integer, ForeignKey("general_quarter.id"))
+    name = Column(String, index=True)
+    nationality = Column(String, index=True)
 
-    weapons = relationship("weapons", back_populates="operators")
+    weapons = relationship("Weapons", back_populates="operators")
+    general_quarter = relationship("general_quarter", back_populates="operators")
 
 
 class Weapons(Base):
@@ -21,4 +24,20 @@ class Weapons(Base):
     name = Column(String, index=True)
     type = Column(String, index=True)
 
-    operators = relationship("operators", back_populates="weapons")
+    operators = relationship("Operators", back_populates="weapons")
+
+class GQ(Base):
+    __tablename__ = "general_quarter"
+
+    id = Column(Integer, primary_key=True, index=True)
+    country = Column(String, index=True)
+
+    operators = relationship("Operators", back_populates="general_quarter")
+
+class Mission(Base):
+    __tablename__ = "mission"
+
+    id = Column(Integer, primary_key=True, index=True)
+    country = Column(String, index=True)
+
+    operators = relationship("Operators", back_populates="general_quarter")

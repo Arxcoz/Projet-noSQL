@@ -19,33 +19,42 @@ def get_db():
         db.close()
 
 
-@app.post("/operators/{weapon_id}", response_model=schemas.Operator)
-def createOperator(operator: schemas.OperatorCreate, weapon_id: int, db: Session = Depends(get_db)):
-    return crud.createOperator(db=db, operator=operator, weapon_id=weapon_id)
+@app.post("/operators/", response_model=schemas.Operator)
+def createOperator(operator: schemas.OperatorCreate, db: Session = Depends(get_db)):
+    return crud.createOperator(db=db, operator=operator)
 
 
-@app.get("/users/", response_model=list[schemas.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.get_users(db, skip=skip, limit=limit)
-    return users
+@app.get("/operators/", response_model=list[schemas.Operator])
+def readOperators(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    operators = crud.getOperators(db, skip=skip, limit=limit)
+    return operators
 
 
-@app.get("/users/{user_id}", response_model=schemas.User)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db, user_id=user_id)
-    if db_user is None:
+@app.get("/operators/{operator_id}", response_model=schemas.Operator)
+def readOperator(operator_id: int, db: Session = Depends(get_db)):
+    db_operator = crud.getOperator(db, operator_id=operator_id)
+    if db_operator is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return db_user
+    return db_operator
 
 
-@app.post("/users/{user_id}/items/", response_model=schemas.Item)
-def create_item_for_user(
-    user_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)
+@app.post("/weapons/", response_model=schemas.Weapon)
+def createWeapon(weapon: schemas.WeaponCreate, db: Session = Depends(get_db)
 ):
-    return crud.create_user_item(db=db, item=item, user_id=user_id)
+    return crud.createWeapon(db=db, weapon=weapon)
 
 
-@app.get("/items/", response_model=list[schemas.Item])
-def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    items = crud.get_items(db, skip=skip, limit=limit)
-    return items
+@app.get("/weapons/", response_model=list[schemas.Weapon])
+def readWeapon(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    weapons = crud.getWeapon(db, skip=skip, limit=limit)
+    return weapons
+
+@app.post("/qg/", response_model=schemas.QG)
+def createQG(qg: schemas.QGCreate, db: Session = Depends(get_db)
+):
+    return crud.createQG(db=db, qg=qg)
+
+@app.get("/qg/", response_model=list[schemas.QG])
+def readQG(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    qg = crud.getQG(db, skip=skip, limit=limit)
+    return qg

@@ -2,8 +2,9 @@ from pydantic import BaseModel
 
 
 class OperatorBase(BaseModel):
-    name: str
     weapon_id: int
+    gq_id: int
+    name: str
     nationality: str
 
 
@@ -14,6 +15,8 @@ class OperatorCreate(OperatorBase):
 class Operator(OperatorBase):
     id: int
     weapon_id: int
+    gq_id: int
+    name: str
     nationality: str
     class Config:
         orm_mode = True
@@ -32,5 +35,18 @@ class Weapon(WeaponBase):
     id: int
     name: str
     type: str
+    class Config:
+        orm_mode = True
+
+class QGBase(BaseModel):
+    country: str
+
+class QGCreate(QGBase):
+    pass
+
+class QG(QGBase):
+    id: int
+    country: str
+
     class Config:
         orm_mode = True
