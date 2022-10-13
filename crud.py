@@ -1,19 +1,44 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from appsql import schemas, models
 
-
-def get_operator(db: Session, operator_id: int):
-    return db.query(models.Operators).filter(models.Operators.id == operator_id).first()
-
-
-def get_operatorName(db: Session, name: str):
-    return db.query(models.Operators).filter(models.Operators.name == name).first()
-
+#Fonction GET
+#Table operators
 
 def get_operators(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Operators).offset(skip).limit(limit).all()
 
+#Par ID
+def get_operator(db: Session, operator_id: int):
+    return db.query(models.Operators).filter(models.Operators.id == operator_id).first()
+
+#Par nom
+def get_operatorName(db: Session, name: str):
+    return db.query(models.Operators).filter(models.Operators.name == name).first()
+
+#Table weapons
+
+def get_weapon(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Weapons).offset(skip).limit(limit).all()
+
+#Table quarter_general
+
+def get_qg(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.GQ).offset(skip).limit(limit).all()
+
+#Table vehicules
+
+def get_vehicule(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Vehicules).offset(skip).limit(limit).all()
+
+#Table missions
+
+def get_mission(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Missions).offset(skip).limit(limit).all()
+
+#Fonction POST
+#Table operators
 
 def create_operator(db: Session, operator: schemas.OperatorCreate):
     db_operator = models.Operators(name=operator.name, gq_id=operator.gq_id, weapon_id=operator.weapon_id, nationality=operator.nationality)
@@ -22,10 +47,7 @@ def create_operator(db: Session, operator: schemas.OperatorCreate):
     db.refresh(db_operator)
     return db_operator
 
-
-def get_weapon(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Weapons).offset(skip).limit(limit).all()
-
+#Table weapons
 
 def create_weapon(db: Session, weapon: schemas.WeaponCreate):
     db_weapon = models.Weapons(name=weapon.name, type=weapon.type)
@@ -34,10 +56,7 @@ def create_weapon(db: Session, weapon: schemas.WeaponCreate):
     db.refresh(db_weapon)
     return db_weapon
 
-
-def get_qg(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.GQ).offset(skip).limit(limit).all()
-
+#Table quarter_general
 
 def create_qg(db: Session, qg: schemas.QGCreate):
     db_qg = models.GQ(country=qg.country)
@@ -46,10 +65,7 @@ def create_qg(db: Session, qg: schemas.QGCreate):
     db.refresh(db_qg)
     return db_qg
 
-
-def get_vehicule(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Vehicules).offset(skip).limit(limit).all()
-
+#Table vehicules
 
 def create_vehicule(db: Session, vehicule: schemas.VehiculeCreate):
     db_vehicule = models.Vehicules(name=vehicule.name, type=vehicule.type)
@@ -58,10 +74,7 @@ def create_vehicule(db: Session, vehicule: schemas.VehiculeCreate):
     db.refresh(db_vehicule)
     return db_vehicule
 
-
-def get_mission(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Missions).offset(skip).limit(limit).all()
-
+#Table missions
 
 def create_mission(db: Session, mission: schemas.MissionCreate):
     db_mission = models.Missions(target=mission.target, vehicule_id=mission.vehicule_id)
@@ -69,3 +82,15 @@ def create_mission(db: Session, mission: schemas.MissionCreate):
     db.commit()
     db.refresh(db_mission)
     return db_mission
+
+
+#Fonction DELETE
+#Table operators
+
+def delete_operator(db: Session, operator_id: int):
+    db_operator = db.query(models.Operators).filter(models.Operators.id == operator_id).first()
+    if db_operator is None:
+        raise HTTPException(status_code=404, detail="Operator not found")
+    db.delete(db_operator)
+    db.commit()
+    return db_operator

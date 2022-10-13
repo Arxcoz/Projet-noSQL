@@ -7,13 +7,13 @@ import crud
 
 router = APIRouter()
 
-
+#Fonction POST
 @router.post("/vehicules/", response_model=schemas.Vehicule)
 def create_vehicule(vehicule: schemas.VehiculeCreate, db: Session = Depends(get_db)
                    ):
     return crud.create_vehicule(db=db, vehicule=vehicule)
 
-
+#Fonction GET
 @router.get("/vehicules/", response_model=list[schemas.Vehicule])
 def read_vehicule(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     vehicule = crud.get_vehicule(db, skip=skip, limit=limit)

@@ -7,13 +7,13 @@ import crud
 
 router = APIRouter()
 
-
+#Fonction GET
 @router.post("/weapons/", response_model=schemas.Weapon)
 def create_weapon(weapon: schemas.WeaponCreate, db: Session = Depends(get_db)
                  ):
     return crud.create_weapon(db=db, weapon=weapon)
 
-
+#Fonction POST
 @router.get("/weapons/", response_model=list[schemas.Weapon])
 def read_weapon(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     weapons = crud.get_weapon(db, skip=skip, limit=limit)

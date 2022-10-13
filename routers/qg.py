@@ -7,13 +7,12 @@ import crud
 
 router = APIRouter()
 
-
+#Fonction POST
 @router.post("/qg/", response_model=schemas.QG)
-def create_qg(qg: schemas.QGCreate, db: Session = Depends(get_db)
-             ):
+def create_qg(qg: schemas.QGCreate, db: Session = Depends(get_db)):
     return crud.create_qg(db=db, qg=qg)
 
-
+#Fonction GET
 @router.get("/qg/", response_model=list[schemas.QG])
 def read_qg(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     qg = crud.get_qg(db, skip=skip, limit=limit)

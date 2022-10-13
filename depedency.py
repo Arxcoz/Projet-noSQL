@@ -1,5 +1,6 @@
 from appsql.database import SessionLocal
 
+#Liaison BDD
 
 def get_db():
     db = SessionLocal()
@@ -7,4 +8,3 @@ def get_db():
         yield db
     finally:
         db.close()
-

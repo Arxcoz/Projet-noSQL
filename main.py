@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from routers import mission, operator, qg, vehicule, weapon
 from appsql import models
-from appsql.database import SessionLocal, engine
+from appsql.database import engine
 
 
 models.Base.metadata.create_all(bind=engine)
