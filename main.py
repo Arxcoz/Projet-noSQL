@@ -1,80 +1,17 @@
-from fastapi import Depends, FastAPI, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import FastAPI
+from routers import mission, operator, qg, vehicule, weapon
+from appsql import models
+from appsql.database import SessionLocal, engine
 
-import schemas
-import models
-import crud
-from database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+app.include_router(mission.router)
+app.include_router(operator.router)
+app.include_router(qg.router)
+app.include_router(vehicule.router)
+app.include_router(weapon.router)
 
 
-@app.post("/operators/", response_model=schemas.Operator)
-def createOperator(operator: schemas.OperatorCreate, db: Session = Depends(get_db)):
-    return crud.createOperator(db=db, operator=operator)
-
-
-@app.get("/operators/", response_model=list[schemas.Operator])
-def readOperators(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    operators = crud.getOperators(db, skip=skip, limit=limit)
-    return operators
-
-
-@app.get("/operators/{operator_id}", response_model=schemas.Operator)
-def readOperator(operator_id: int, db: Session = Depends(get_db)):
-    db_operator = crud.getOperator(db, operator_id=operator_id)
-    if db_operator is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_operator
-
-
-@app.post("/weapons/", response_model=schemas.Weapon)
-def createWeapon(weapon: schemas.WeaponCreate, db: Session = Depends(get_db)
-):
-    return crud.createWeapon(db=db, weapon=weapon)
-
-
-@app.get("/weapons/", response_model=list[schemas.Weapon])
-def readWeapon(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    weapons = crud.getWeapon(db, skip=skip, limit=limit)
-    return weapons
-
-@app.post("/qg/", response_model=schemas.QG)
-def createQG(qg: schemas.QGCreate, db: Session = Depends(get_db)
-):
-    return crud.createQG(db=db, qg=qg)
-
-@app.get("/qg/", response_model=list[schemas.QG])
-def readQG(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    qg = crud.getQG(db, skip=skip, limit=limit)
-    return qg
-
-@app.post("/vehicules/", response_model=schemas.Vehicule)
-def createVehicule(vehicule: schemas.VehiculeCreate, db: Session = Depends(get_db)
-):
-    return crud.createVehicule(db=db, vehicule=vehicule)
-
-@app.get("/vehicules/", response_model=list[schemas.Vehicule])
-def readVehicule(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    vehicule = crud.getVehicule(db, skip=skip, limit=limit)
-    return vehicule
-
-@app.post("/missions/", response_model=schemas.Mission)
-def createMission(mission: schemas.MissionCreate, db: Session = Depends(get_db)
-):
-    return crud.createMission(db=db, mission=mission)
-
-@app.get("/missions/", response_model=list[schemas.Mission])
-def readMission(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    mission = crud.getMission(db, skip=skip, limit=limit)
-    return mission

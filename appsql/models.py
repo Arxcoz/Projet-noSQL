@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+from .database import Base
 
-from database import Base
 
 class Operators(Base):
     __tablename__ = "operators"
@@ -13,6 +13,7 @@ class Operators(Base):
     name = Column(String, index=True)
     nationality = Column(String, index=True)
 
+
 class Weapons(Base):
     __tablename__ = "weapons"
 
@@ -21,6 +22,7 @@ class Weapons(Base):
     type = Column(String, index=True)
 
     operators = relationship("Operators", backref="weapons")
+
 
 class Vehicules(Base):
     __tablename__ = "vehicules"
@@ -31,6 +33,7 @@ class Vehicules(Base):
 
     missions = relationship("Missions", backref="vehicules")
 
+
 class GQ(Base):
     __tablename__ = "general_quarter"
 
@@ -38,6 +41,7 @@ class GQ(Base):
     country = Column(String, index=True)
 
     operators = relationship("Operators", backref="general_quarter")
+
 
 class Missions(Base):
     __tablename__ = "missions"

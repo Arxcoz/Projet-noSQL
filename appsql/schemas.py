@@ -18,6 +18,7 @@ class Operator(OperatorBase):
     gq_id: int
     name: str
     nationality: str
+
     class Config:
         orm_mode = True
 
@@ -35,14 +36,19 @@ class Weapon(WeaponBase):
     id: int
     name: str
     type: str
+
     class Config:
         orm_mode = True
+
+
 
 class QGBase(BaseModel):
     country: str
 
+
 class QGCreate(QGBase):
     pass
+
 
 class QG(QGBase):
     id: int
@@ -51,12 +57,15 @@ class QG(QGBase):
     class Config:
         orm_mode = True
 
+
 class MissionBase(BaseModel):
     target: str
     vehicule_id: int
 
+
 class MissionCreate(MissionBase):
     pass
+
 
 class Mission(MissionBase):
     id: int
@@ -66,12 +75,15 @@ class Mission(MissionBase):
     class Config:
         orm_mode = True
 
+
 class VehiculeBase(BaseModel):
     name: str
     type: str
 
+
 class VehiculeCreate(VehiculeBase):
     pass
+
 
 class Vehicule(VehiculeBase):
     id: int
