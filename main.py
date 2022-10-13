@@ -58,3 +58,23 @@ def createQG(qg: schemas.QGCreate, db: Session = Depends(get_db)
 def readQG(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     qg = crud.getQG(db, skip=skip, limit=limit)
     return qg
+
+@app.post("/vehicules/", response_model=schemas.Vehicule)
+def createVehicule(vehicule: schemas.VehiculeCreate, db: Session = Depends(get_db)
+):
+    return crud.createVehicule(db=db, vehicule=vehicule)
+
+@app.get("/vehicules/", response_model=list[schemas.Vehicule])
+def readVehicule(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    vehicule = crud.getVehicule(db, skip=skip, limit=limit)
+    return vehicule
+
+@app.post("/missions/", response_model=schemas.Mission)
+def createMission(mission: schemas.MissionCreate, db: Session = Depends(get_db)
+):
+    return crud.createMission(db=db, mission=mission)
+
+@app.get("/missions/", response_model=list[schemas.Mission])
+def readMission(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    mission = crud.getMission(db, skip=skip, limit=limit)
+    return mission

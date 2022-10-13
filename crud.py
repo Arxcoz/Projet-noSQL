@@ -45,3 +45,24 @@ def createQG(db: Session, qg: schemas.QGCreate):
     db.commit()
     db.refresh(db_qg)
     return db_qg
+def getVehicule(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Vehicule).offset(skip).limit(limit).all()
+
+
+def createVehicule(db: Session, vehicule: schemas.VehiculeCreate):
+    db_vehicule = models.Vehicule(name=vehicule.name, type=vehicule.type)
+    db.add(db_vehicule)
+    db.commit()
+    db.refresh(db_vehicule)
+    return db_vehicule
+
+def getMission(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Mission).offset(skip).limit(limit).all()
+
+
+def createMission(db: Session, mission: schemas.MissionCreate):
+    db_mission = models.Mission(target=mission.target, vehicule_id=mission.vehicule_id)
+    db.add(db_mission)
+    db.commit()
+    db.refresh(db_mission)
+    return db_mission

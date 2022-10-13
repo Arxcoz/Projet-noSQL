@@ -1,21 +1,17 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from database import Base
-
 
 class Operators(Base):
     __tablename__ = "operators"
 
     id = Column(Integer, primary_key=True, index=True)
     weapon_id = Column(Integer, ForeignKey("weapons.id"))
-    gq_id = Column(Integer, ForeignKey("general_quarter.id"))
+    gq_id = Column(Integer, ForeignKey("quarter_general.id"))
+    mission_id = Column(Integer, ForeignKey("missions.id"))
     name = Column(String, index=True)
     nationality = Column(String, index=True)
-
-    weapons = relationship("Weapons", back_populates="operators")
-    general_quarter = relationship("general_quarter", back_populates="operators")
-
 
 class Weapons(Base):
     __tablename__ = "weapons"
@@ -24,7 +20,16 @@ class Weapons(Base):
     name = Column(String, index=True)
     type = Column(String, index=True)
 
-    operators = relationship("Operators", back_populates="weapons")
+    operators = relationship("Operators", backref="weapons")
+
+class Vehicules(Base):
+    __tablename__ = "vehicules"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    type = Column(String, index=True)
+
+    missions = relationship("Missions", backref="vehicules")
 
 class GQ(Base):
     __tablename__ = "general_quarter"
@@ -32,12 +37,13 @@ class GQ(Base):
     id = Column(Integer, primary_key=True, index=True)
     country = Column(String, index=True)
 
-    operators = relationship("Operators", back_populates="general_quarter")
+    operators = relationship("Operators", backref="general_quarter")
 
-class Mission(Base):
-    __tablename__ = "mission"
+class Missions(Base):
+    __tablename__ = "missions"
 
     id = Column(Integer, primary_key=True, index=True)
-    country = Column(String, index=True)
+    target = Column(String, index=True)
+    vehicule_id = Column(Integer, ForeignKey("vehicules.id"))
 
-    operators = relationship("Operators", back_populates="general_quarter")
+    operators = relationship("Operators", backref="missions")
