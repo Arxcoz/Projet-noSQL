@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -44,6 +44,7 @@ class Missions(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     target = Column(String, index=True)
+    statut = Column(Boolean, index=True)
     vehicule_id = Column(Integer, ForeignKey("vehicules.id"))
 
     operators = relationship("Operators", backref="missions")
