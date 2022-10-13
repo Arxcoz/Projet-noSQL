@@ -47,3 +47,38 @@ def delete_operator(db: Session, operator_id: int):
     db.delete(db_operator)
     db.commit()
     return db_operator
+
+# PATCH function
+def patch_operator_weapon(db: Session, operator_id:int, weapon_id: int | None):
+    db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
+    if db_weapon is None and weapon_id is not None:
+        raise HTTPException(status_code=404, detail="Weapon not found")
+    db_operator = db.query(models.Operators).filter(models.Operators.id == operator_id).first()
+    if db_operator is None:
+        raise HTTPException(status_code=404, detail="Operator not found")
+    db_operator.weapon_id = weapon_id
+    db.commit()
+    return db_operator
+
+
+def patch_operator_mission(db: Session, operator_id:int, mission_id: int | None):
+    db_mission = db.query(models.Missions).filter(models.Missions.id == mission_id).first()
+    if db_mission is None and mission_id is not None:
+        raise HTTPException(status_code=404, detail="Mission not found")
+    db_operator = db.query(models.Operators).filter(models.Operators.id == operator_id).first()
+    if db_operator is None:
+        raise HTTPException(status_code=404, detail="Operator not found")
+    db_operator.weapon_id = mission_id
+    db.commit()
+    return db_operator
+
+def patch_operator_qg(db: Session, operator_id:int, qg_id: int | None):
+    db_qg = db.query(models.GQ).filter(models.GQ.id == qg_id).first()
+    if db_qg is None and qg_id is not None:
+        raise HTTPException(status_code=404, detail="Quarter general not found")
+    db_operator = db.query(models.Operators).filter(models.Operators.id == operator_id).first()
+    if db_operator is None:
+        raise HTTPException(status_code=404, detail="Operator not found")
+    db_operator.qg_id = qg_id
+    db.commit()
+    return db_operator
