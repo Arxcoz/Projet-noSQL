@@ -8,7 +8,7 @@ class Operators(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     weapon_id = Column(Integer, ForeignKey("weapons.id"))
-    gq_id = Column(Integer, ForeignKey("quarter_general.id"))
+    gq_id = Column(Integer, ForeignKey("general_quarter.id"))
     mission_id = Column(Integer, ForeignKey("missions.id"))
     name = Column(String, index=True)
     nationality = Column(String, index=True)
