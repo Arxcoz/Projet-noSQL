@@ -14,8 +14,8 @@ def get_operator(db: Session, operator_id: int):
     return db.query(models.Operators).filter(models.Operators.id == operator_id).first()
 
 #Par nom
-def get_operatorName(db: Session, name: str):
-    return db.query(models.Operators).filter(models.Operators.name == name).first()
+def get_operator_weapon(db: Session, weapon_id: int):
+    return db.query(models.Operators).filter(models.Operators.weapon_id == weapon_id).first()
 
 #Table weapons
 
@@ -94,3 +94,11 @@ def delete_operator(db: Session, operator_id: int):
     db.delete(db_operator)
     db.commit()
     return db_operator
+
+def delete_weapon(db: Session, weapon_id: int):
+    db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
+    if db_weapon is None:
+        raise HTTPException(status_code=404, detail="Weapon not found")
+    db.delete(db_weapon)
+    db.commit()
+    return db_weapon
