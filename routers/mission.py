@@ -18,3 +18,9 @@ def create_mission(mission: schemas.MissionCreate, db: Session = Depends(get_db)
 def read_mission(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     mission = crud_mission.get_mission(db, skip=skip, limit=limit)
     return mission
+
+# DELETE Function
+@router.delete("/missions/{mission_id}")
+def delete_mission(mission_id: int, db : Session = Depends(get_db)):
+    db_mission = crud_mission.delete_mission(db=db,mission_id=mission_id)
+    return "Mission erased"

@@ -15,13 +15,24 @@ def get_operator(db: Session, operator_id: int):
 
 
 # Par nom
-def get_operator_name(db: Session, name: str):
-    return db.query(models.Operators).filter(models.Operators.name == name).first()
+def get_operator_weapon(db: Session, weapon_id: int):
+    return db.query(models.Operators).filter(models.Operators.weapon_id == weapon_id).first()
 
 
 # POST function
 def create_operator(db: Session, operator: schemas.OperatorCreate):
-    db_operator = models.Operators(name=operator.name, gq_id=operator.gq_id, weapon_id=operator.weapon_id, nationality=operator.nationality)
+    db_weapon = db.query(models.Operators).filter(models.Weapons.id == operator.weapon_id).first()
+    if db_weapon is None and operator.weapon_id is not None:
+        raise HTTPException(status_code=404, detail="This weapon don't exist")
+    db_qg = db.query(models.GQ).filter(models.GQ.id == operator.gq_id).first()
+    if db_qg is None and operator.gq_id is not None:
+        raise HTTPException(status_code=404, detail="This general quarter don't exist")
+    if operator.weapon_id is not None and operator.gq_id is not None:
+        db_operator = models.Operators(name=operator.name, gq_id=operator.gq_id, weapon_id=operator.weapon_id, nationality=operator.nationality)
+    elif operator.weapon_id is None and operator.gq_id is not None:
+        db_operator = models.Operators(name=operator.name, gq_id=operator.gq_id, nationality=operator.nationality)
+    else:
+        db_operator = models.Operators(name=operator.name, nationality=operator.nationality)
     db.add(db_operator)
     db.commit()
     db.refresh(db_operator)

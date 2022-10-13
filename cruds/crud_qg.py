@@ -15,3 +15,12 @@ def create_qg(db: Session, qg: schemas.QGCreate):
     db.commit()
     db.refresh(db_qg)
     return db_qg
+
+# DELETE function
+def delete_qg(db: Session, qg_id: int):
+    db_qg = db.query(models.GQ).filter(models.GQ.id == qg_id).first()
+    if db_qg is None:
+        raise HTTPException(status_code=404, detail="Quarter general not found")
+    db.delete(db_qg)
+    db.commit()
+    return db_qg

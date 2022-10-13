@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class OperatorBase(BaseModel):
     weapon_id: int
     gq_id: int
+    mission_id: int
     name: str
     nationality: str
 
@@ -14,8 +15,9 @@ class OperatorCreate(OperatorBase):
 
 class Operator(OperatorBase):
     id: int
-    weapon_id: int
-    gq_id: int
+    weapon_id: int | None
+    gq_id: int | None
+    mission_id: int | None
     name: str
     nationality: str
 
@@ -60,7 +62,7 @@ class QG(QGBase):
 
 class MissionBase(BaseModel):
     target: str
-    vehicule_id: int
+    vehicule_id: int | None
 
 
 class MissionCreate(MissionBase):
@@ -70,7 +72,7 @@ class MissionCreate(MissionBase):
 class Mission(MissionBase):
     id: int
     target: str
-    vehicule_id: int
+    vehicule_id: int | None
 
     class Config:
         orm_mode = True

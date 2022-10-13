@@ -18,3 +18,8 @@ def create_qg(qg: schemas.QGCreate, db: Session = Depends(get_db)):
 def read_qg(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     qg = crud_qg.get_qg(db, skip=skip, limit=limit)
     return qg
+
+@router.delete("/qg/{qg_id}")
+def delete_qg(qg_id: int, db : Session = Depends(get_db)):
+    db_qg = crud_qg.delete_qg(db, qg_id=qg_id)
+    return "Quarter General deconstruct"

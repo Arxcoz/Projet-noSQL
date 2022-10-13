@@ -4,7 +4,7 @@ from .database import Base
 
 
 class Operators(Base):
-    __tablename__ = "operators"
+    __tablename__   = "operators"
 
     id = Column(Integer, primary_key=True, index=True)
     weapon_id = Column(Integer, ForeignKey("weapons.id"))
@@ -15,7 +15,7 @@ class Operators(Base):
 
 
 class Weapons(Base):
-    __tablename__ = "weapons"
+    __tablename__   = "weapons"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
@@ -25,7 +25,7 @@ class Weapons(Base):
 
 
 class Vehicules(Base):
-    __tablename__ = "vehicules"
+    __tablename__   = "vehicules"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
@@ -35,7 +35,7 @@ class Vehicules(Base):
 
 
 class GQ(Base):
-    __tablename__ = "general_quarter"
+    __tablename__   = "general_quarter"
 
     id = Column(Integer, primary_key=True, index=True)
     country = Column(String, index=True)
@@ -44,7 +44,7 @@ class GQ(Base):
 
 
 class Missions(Base):
-    __tablename__ = "missions"
+    __tablename__   = "missions"
 
     id = Column(Integer, primary_key=True, index=True)
     target = Column(String, index=True)

@@ -19,4 +19,8 @@ def read_vehicule(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 def create_vehicule(vehicule: schemas.VehiculeCreate, db: Session = Depends(get_db)):
     return crud_vehicule.create_vehicule(db=db, vehicule=vehicule)
 
-
+# DELETE Function
+@router.delete("/vehicules/{vehicule_id}")
+def delete_qg(vehicule_id: int, db : Session = Depends(get_db)):
+    db_vehicule = crud_vehicule.delete_vehicule(db, vehicule_id=vehicule_id)
+    return "Vehicule is obsolete now"

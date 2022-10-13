@@ -15,3 +15,13 @@ def create_weapon(db: Session, weapon: schemas.WeaponCreate):
     db.commit()
     db.refresh(db_weapon)
     return db_weapon
+
+# DELETE function
+
+def delete_weapon(db: Session, weapon_id: int):
+    db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
+    if db_weapon is None:
+        raise HTTPException(status_code=404, detail="Weapon not found")
+    db.delete(db_weapon)
+    db.commit()
+    return db_weapon
