@@ -24,3 +24,9 @@ def create_vehicule(vehicule: schemas.VehiculeCreate, db: Session = Depends(get_
 def delete_qg(vehicule_id: int, db : Session = Depends(get_db)):
     db_vehicule = crud_vehicule.delete_vehicule(db, vehicule_id=vehicule_id)
     return "Vehicule is obsolete now"
+
+# PUT Function
+@router.put("/vehicules/{vehicule_id}", response_model=schemas.Vehicule)
+def change_vehicule(vehicule: schemas.VehiculeCreate, vehicule_id: int, db: Session = Depends(get_db)):
+    db_vehicule = crud_vehicule.put_vehicule(db, vehicule_id=vehicule_id, vehicule=vehicule)
+    return db_vehicule

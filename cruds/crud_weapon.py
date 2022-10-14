@@ -19,9 +19,22 @@ def create_weapon(db: Session, weapon: schemas.WeaponCreate):
 # DELETE function
 
 def delete_weapon(db: Session, weapon_id: int):
+    db_operator = db.query(models.Operators).filter(models.Operators.id == weapon_id).first()
+    if db_operator is None:
+        raise HTTPException(status_code=404, detail="Operator have this weapon" + str(db_operator))
     db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
     if db_weapon is None:
         raise HTTPException(status_code=404, detail="Weapon not found")
     db.delete(db_weapon)
+    db.commit()
+    return db_weapon
+
+# PUT function
+def put_weapon(db: Session, weapon: schemas.WeaponCreate, weapon_id:int):
+    db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
+    if db_weapon is None:
+        raise HTTPException(status_code=404, detail="Weapon not found")
+    db_weapon.name = weapon.name
+    db_weapon.type = weapon.type
     db.commit()
     return db_weapon

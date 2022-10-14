@@ -26,7 +26,7 @@ def delete_mission(mission_id: int, db : Session = Depends(get_db)):
     return "Mission erased"
 
 # PATCH Function
-@router.patch("/missions/vehicule/{mission_id}+{vehicule_id}", response_model=schemas.Mission)
-def change_vehicule(mission_id: int, vehicule_id: int, db: Session = Depends(get_db)):
-    db_mission = crud_mission.patch_mission_vehicule(db, mission_id=mission_id, vehicule_id=vehicule_id)
+@router.put("/missions/{mission_id}", response_model=schemas.Mission)
+def change_mission(mission: schemas.MissionCreate,mission_id: int, db: Session = Depends(get_db)):
+    db_mission = crud_mission.put_mission(db, mission_id=mission_id, mission=mission)
     return db_mission
