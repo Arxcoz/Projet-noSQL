@@ -28,6 +28,7 @@ def delete_vehicule(db: Session, vehicule_id: int):
 
 
 
+
 # PATCH function
 def patch_vehicule(vehicule_id: int, db: Session, vehicule: schemas.VehiculeUpdate):
     db_vehicule = db.query(models.Vehicules).filter(models.Vehicules.id == vehicule_id).first()
@@ -42,8 +43,9 @@ def patch_vehicule(vehicule_id: int, db: Session, vehicule: schemas.VehiculeUpda
 
 
 
+
 # PUT function
-def put_vehicule(db: Session, vehicule: schemas.VehiculeCreate, vehicule_id:int):
+def put_vehicule(db: Session, vehicule: schemas.VehiculeCreate, vehicule_id: int):
     db_vehicule = db.query(models.Vehicules).filter(models.Vehicules.id == vehicule_id).first()
     if db_vehicule is None:
         raise HTTPException(status_code=404, detail="Vehicule not found")

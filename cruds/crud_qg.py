@@ -16,6 +16,7 @@ def create_qg(db: Session, qg: schemas.QGCreate):
     db.refresh(db_qg)
     return db_qg
 
+
 # DELETE function
 def delete_qg(db: Session, qg_id: int):
     db_operator = db.query(models.Operators).filter(models.Operators.id == qg_id).first()
@@ -28,8 +29,9 @@ def delete_qg(db: Session, qg_id: int):
     db.commit()
     return db_qg
 
+
 # PUT function
-def put_qg(db: Session, qg: schemas.QGCreate, qg_id:int):
+def put_qg(db: Session, qg: schemas.QGCreate, qg_id: int):
     db_qg = db.query(models.GQ).filter(models.GQ.id == qg_id).first()
     if db_qg is None:
         raise HTTPException(status_code=404, detail="Quarter general not found")

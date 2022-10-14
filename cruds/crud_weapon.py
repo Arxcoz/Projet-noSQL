@@ -42,8 +42,9 @@ def patch_weapon(weapon_id: int, db: Session, vehicule: schemas.VehiculeUpdate):
     return db_vehicule
 
 
+
 # PUT function
-def put_weapon(db: Session, weapon: schemas.WeaponCreate, weapon_id:int):
+def put_weapon(db: Session, weapon: schemas.WeaponCreate, weapon_id: int):
     db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
     if db_weapon is None:
         raise HTTPException(status_code=404, detail="Weapon not found")
