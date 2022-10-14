@@ -71,5 +71,6 @@ def put_operator(db: Session, operator: schemas.OperatorCreate, operator_id:int)
     db_operator.weapon_id = operator.weapon_id
     db_operator.name = operator.name
     db_operator.nationality = operator.nationality
+
     db.commit()
     return db_operator
