@@ -29,18 +29,18 @@ def delete_weapon(db: Session, weapon_id: int):
     db.commit()
     return db_weapon
 
-# PATCH function
-def patch_weapon(weapon_id: int, db: Session, vehicule: schemas.VehiculeUpdate):
-    db_vehicule = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
-    if db_vehicule is None:
-        raise HTTPException(status_code=404, detail="Weapons not found")
-    if vehicule.name is not None:
-        db_vehicule.name = vehicule.name
-    if vehicule.type is not None:
-        db_vehicule.type = vehicule.type
-    db.commit()
-    return db_vehicule
 
+# PATCH function
+def patch_weapon(weapon_id: int, db: Session, weapon: schemas.WeaponUpdate):
+    db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
+    if db_weapon is None:
+        raise HTTPException(status_code=404, detail="Weapons not found")
+    if weapon.name is not None:
+        db_weapon.name = weapon.name
+    if weapon.type is not None:
+        db_weapon.type = weapon.type
+    db.commit()
+    return db_weapon
 
 
 # PUT function

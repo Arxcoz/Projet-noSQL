@@ -1,7 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from appsql import models, schemas
-from fastapi.encoders import jsonable_encoder
 
 
 # GET Function
@@ -72,7 +71,6 @@ def delete_operator(db: Session, operator_id: int):
     return db_operator
 
 
-
 # PATCH function
 def patch_operator(operator_id: int, db: Session, operator: schemas.OperatorUpdate):
     db_operator = db.query(models.Operators).filter(models.Operators.id == operator_id).first()
@@ -93,7 +91,7 @@ def patch_operator(operator_id: int, db: Session, operator: schemas.OperatorUpda
 
 
 # PUT function
-def put_operator(db: Session, operator: schemas.OperatorCreate, operator_id:int):
+def put_operator(db: Session, operator: schemas.OperatorCreate, operator_id: int):
     db_qg = db.query(models.GQ).filter(models.GQ.id == operator.gq_id).first()
     if db_qg is None:
         raise HTTPException(status_code=404, detail="Quarter General not found")
@@ -115,7 +113,6 @@ def put_operator(db: Session, operator: schemas.OperatorCreate, operator_id:int)
     db_operator.weapon_id = operator.weapon_id
     db_operator.name = operator.name
     db_operator.nationality = operator.nationality
-
 
 
 # PUT function

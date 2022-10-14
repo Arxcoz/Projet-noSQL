@@ -2,6 +2,11 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from .database import Base
 
+"""
+create models for database.
+add primary_key and foreign_key for id
+"""
+
 
 class Operators(Base):
     __tablename__ = "operators"

@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from typing import Optional
 
 
 # OPERATOR SCHEMAS
@@ -7,7 +6,7 @@ class OperatorBase(BaseModel):
     pass
 
 
-class OperatorUpdate(BaseModel):
+class OperatorUpdate(OperatorBase):
     weapon_id: int | None = None
     gq_id: int | None = None
     mission_id: int | None = None
@@ -21,6 +20,7 @@ class OperatorCreate(OperatorBase):
     mission_id: int | None = None
     name: str
     nationality: str
+
 
 class Operator(OperatorBase):
     id: int

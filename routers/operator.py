@@ -4,7 +4,20 @@ from depedency import get_db
 from appsql import schemas
 from cruds import crud_operator
 
-router=APIRouter()
+router = APIRouter()
+
+
+"""
+POST function
+Use the request Schema for put the value send by request in db
+GET function
+Get the value push in db by the different request, use it for print in front
+PATCH function
+Get an instance already exist.
+it's allow to change some value but not necessarily all values.
+DELETE function
+Get the instance ID and delete this
+"""
 
 
 # POST function
@@ -34,6 +47,7 @@ def read_operator(operator_id: int, db: Session = Depends(get_db)):
 def read_operator_weapon(weapon_id: int, db: Session = Depends(get_db)):
     db_operator = crud_operator.get_operator_weapon(db, weapon_id=weapon_id)
     return db_operator
+
 
 # By Quarter General
 @router.get("/operators/filter-qg/{qg_id}", response_model=list[schemas.Operator])
@@ -72,7 +86,7 @@ def delete_operator(operator_id: int, db: Session = Depends(get_db)):
 # Function PATCH
 @router.patch("/operators/{operator_id}", response_model=schemas.Operator)
 def update_operator(operator_id: int, operator: schemas.OperatorUpdate, db: Session = Depends(get_db)):
-    db_operator = crud_operator.patch_operator(db = db, operator_id=operator_id,  operator=operator)
+    db_operator = crud_operator.patch_operator(db=db, operator_id=operator_id,  operator=operator)
     return db_operator
 
 

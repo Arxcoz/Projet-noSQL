@@ -22,7 +22,7 @@ def read_weapon(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
 # DELETE function
 @router.delete("/weapons/{weapon_id}")
-def delete_weapon(weapon_id: int, db : Session = Depends(get_db)):
+def delete_weapon(weapon_id: int, db: Session = Depends(get_db)):
     db_weapon = crud_weapon.delete_weapon(db, weapon_id=weapon_id)
     return "Weapon is obsolete"
 
@@ -30,7 +30,7 @@ def delete_weapon(weapon_id: int, db : Session = Depends(get_db)):
 # PATCH function
 @router.patch("/weapons/{weapons_id}", response_model=schemas.Weapon)
 def update_weapon(weapon_id: int, weapons: schemas.WeaponUpdate, db: Session = Depends(get_db)):
-    db_weapon = crud_weapon.patch_weapon(db = db, weapon_id=weapon_id,  weapon=weapons)
+    db_weapon = crud_weapon.patch_weapon(db=db, weapon_id=weapon_id,  weapon=weapons)
     return db_weapon
 
 
