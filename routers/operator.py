@@ -7,13 +7,13 @@ from cruds import crud_operator
 router=APIRouter()
 
 
-# Function POST
+# POST function
 @router.post("/operators/", response_model=schemas.Operator)
 def create_operator(operator: schemas.OperatorCreate, db: Session = Depends(get_db)):
     return crud_operator.create_operator(db=db, operator=operator)
 
 
-# Function GET
+# GET function
 @router.get("/operators/", response_model=list[schemas.Operator])
 def read_operators(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     operators = crud_operator.get_operators(db, skip=skip, limit=limit)
@@ -43,6 +43,13 @@ def read_operator_weapon(weapon_id: int, db: Session = Depends(get_db)):
 def delete_operator(operator_id: int, db: Session = Depends(get_db)):
     db_operator = crud_operator.delete_operator(db, operator_id=operator_id)
     return "Operator eliminated"
+
+
+# Function PATCH
+@router.patch("/operators/{operator_id}", response_model=schemas.Operator)
+def update_operator(operator_id: int, operator: schemas.OperatorUpdate, db: Session = Depends(get_db)):
+    db_operator = crud_operator.patch_operator(db = db, operator_id=operator_id,  operator=operator)
+    return db_operator
 
 
 # Function PUT

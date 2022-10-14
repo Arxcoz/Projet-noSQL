@@ -1,15 +1,26 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
+# OPERATOR SCHEMAS
 class OperatorBase(BaseModel):
+    pass
+
+
+class OperatorUpdate(BaseModel):
+    weapon_id: int | None = None
+    gq_id: int | None = None
+    mission_id: int | None = None
+    name: str | None = None
+    nationality: str | None = None
+
+
+class OperatorCreate(OperatorBase):
     weapon_id: int
     gq_id: int
     mission_id: int | None = None
     name: str
     nationality: str
-
-class OperatorCreate(OperatorBase):
-    pass
 
 class Operator(OperatorBase):
     id: int
@@ -23,13 +34,21 @@ class Operator(OperatorBase):
         orm_mode = True
 
 
+# WEAPON SCHEMAS
+
 class WeaponBase(BaseModel):
+    pass
+
+
+class WeaponCreate(WeaponBase):
+    id: int
     name: str
     type: str
 
 
-class WeaponCreate(WeaponBase):
-    pass
+class WeaponUpdate(WeaponBase):
+    name: str | None = None
+    type: str | None = None
 
 
 class Weapon(WeaponBase):
@@ -41,6 +60,7 @@ class Weapon(WeaponBase):
         orm_mode = True
 
 
+# QG SCHEMAS
 
 class QGBase(BaseModel):
     country: str
@@ -58,13 +78,19 @@ class QG(QGBase):
         orm_mode = True
 
 
+# MISSION SCHEMAS
 class MissionBase(BaseModel):
+    pass
+
+
+class MissionCreate(MissionBase):
     target: str
     vehicule_id: int | None
 
 
-class MissionCreate(MissionBase):
-    pass
+class MissionUpdate(MissionBase):
+    target: str | None = None
+    vehicule_id: int | None = None
 
 
 class Mission(MissionBase):
@@ -76,13 +102,19 @@ class Mission(MissionBase):
         orm_mode = True
 
 
+# VEHICULE SCHEMAS
 class VehiculeBase(BaseModel):
+   pass
+
+
+class VehiculeCreate(VehiculeBase):
     name: str
     type: str
 
 
-class VehiculeCreate(VehiculeBase):
-    pass
+class VehiculeUpdate(VehiculeBase):
+    name: str | None = None
+    type: str | None = None
 
 
 class Vehicule(VehiculeBase):

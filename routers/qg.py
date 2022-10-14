@@ -19,6 +19,7 @@ def read_qg(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     qg = crud_qg.get_qg(db, skip=skip, limit=limit)
     return qg
 
+
 # DELETE Function
 @router.delete("/qg/{qg_id}")
 def delete_qg(qg_id: int, db : Session = Depends(get_db)):
