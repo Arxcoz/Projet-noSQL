@@ -24,3 +24,13 @@ def delete_vehicule(db: Session, vehicule_id: int):
     db.delete(db_vehicule)
     db.commit()
     return db_vehicule
+
+# PUT function
+def put_vehicule(db: Session, vehicule: schemas.VehiculeCreate, vehicule_id:int):
+    db_vehicule = db.query(models.Vehicules).filter(models.Vehicules.id == vehicule_id).first()
+    if db_vehicule is None:
+        raise HTTPException(status_code=404, detail="Vehicule not found")
+    db_vehicule.name = vehicule.name
+    db_vehicule.type = vehicule.type
+    db.commit()
+    return db_vehicule

@@ -24,3 +24,9 @@ def read_weapon(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 def delete_weapon(weapon_id: int, db : Session = Depends(get_db)):
     db_weapon = crud_weapon.delete_weapon(db, weapon_id=weapon_id)
     return "Weapon is obsolete"
+
+# PUT function
+@router.put("/weapons/{weapon_id}", response_model=schemas.Weapon)
+def change_weapon(weapon: schemas.WeaponCreate, weapon_id: int, db: Session = Depends(get_db)):
+    db_weapon = crud_weapon.put_weapon(db, weapon_id=weapon_id, weapon=weapon)
+    return db_weapon

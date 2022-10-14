@@ -18,9 +18,21 @@ def create_qg(db: Session, qg: schemas.QGCreate):
 
 # DELETE function
 def delete_qg(db: Session, qg_id: int):
+    db_operator = db.query(models.Operators).filter(models.Operators.id == qg_id).first()
+    if db_operator is not None:
+        raise HTTPException(status_code=405, detail="Operator is assign here"+str(db_operator))
     db_qg = db.query(models.GQ).filter(models.GQ.id == qg_id).first()
     if db_qg is None:
         raise HTTPException(status_code=404, detail="Quarter general not found")
     db.delete(db_qg)
+    db.commit()
+    return db_qg
+
+# PUT function
+def put_qg(db: Session, qg: schemas.QGCreate, qg_id:int):
+    db_qg = db.query(models.GQ).filter(models.GQ.id == qg_id).first()
+    if db_qg is None:
+        raise HTTPException(status_code=404, detail="Quarter general not found")
+    db_qg.country = qg.country
     db.commit()
     return db_qg

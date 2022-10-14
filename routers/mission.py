@@ -24,3 +24,9 @@ def read_mission(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
 def delete_mission(mission_id: int, db : Session = Depends(get_db)):
     db_mission = crud_mission.delete_mission(db=db,mission_id=mission_id)
     return "Mission erased"
+
+# PATCH Function
+@router.put("/missions/{mission_id}", response_model=schemas.Mission)
+def change_mission(mission: schemas.MissionCreate,mission_id: int, db: Session = Depends(get_db)):
+    db_mission = crud_mission.put_mission(db, mission_id=mission_id, mission=mission)
+    return db_mission

@@ -4,18 +4,16 @@ from pydantic import BaseModel
 class OperatorBase(BaseModel):
     weapon_id: int
     gq_id: int
-    mission_id: int
+    mission_id: int | None = None
     name: str
     nationality: str
-
 
 class OperatorCreate(OperatorBase):
     pass
 
-
 class Operator(OperatorBase):
     id: int
-    weapon_id: int | None
+    weapon_id: int
     gq_id: int | None
     mission_id: int | None
     name: str
