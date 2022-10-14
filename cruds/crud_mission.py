@@ -22,6 +22,7 @@ def create_mission(db: Session, mission: schemas.MissionCreate):
     db.refresh(db_mission)
     return db_mission
 
+
 # DELETE function
 def delete_mission(db: Session, mission_id: int):
     db_mission = db.query(models.Missions).filter(models.Missions.id == mission_id).first()
@@ -31,8 +32,9 @@ def delete_mission(db: Session, mission_id: int):
     db.commit()
     return db_mission
 
+
 # PUT function
-def put_mission(db: Session, mission: schemas.MissionCreate, mission_id:int):
+def put_mission(db: Session, mission: schemas.MissionCreate, mission_id: int):
     db_mission = db.query(models.Missions).filter(models.Missions.id == mission_id).first()
     if db_mission is None:
         raise HTTPException(status_code=404, detail="Mission not found")

@@ -1,7 +1,7 @@
 from appsql.database import SessionLocal
 
-#Liaison BDD
 
+# Liaison BDD
 def get_db():
     db = SessionLocal()
     try:
