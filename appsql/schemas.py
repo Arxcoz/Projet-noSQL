@@ -1,22 +1,33 @@
 from pydantic import BaseModel
+from typing import Optional
 
+
+# OPERATOR SCHEMAS
 
 class OperatorBase(BaseModel):
+    pass
+
+
+class OperatorUpdate(BaseModel):
+    weapon_id: int | None = None
+    gq_id: int | None = None
+    mission_id: int | None = None
+    name: str | None = None
+    nationality: str | None = None
+
+
+class OperatorCreate(OperatorBase):
     weapon_id: int
     gq_id: int
-    mission_id: int
+    mission_id: int | None = None
     name: str
     nationality: str
 
 
-class OperatorCreate(OperatorBase):
-    pass
-
-
 class Operator(OperatorBase):
     id: int
-    weapon_id: int | None
-    gq_id: int | None
+    weapon_id: int
+    gq_id: int
     mission_id: int | None
     name: str
     nationality: str
@@ -24,6 +35,8 @@ class Operator(OperatorBase):
     class Config:
         orm_mode = True
 
+
+# WEAPON SCHEMAS
 
 class WeaponBase(BaseModel):
     name: str
@@ -41,7 +54,6 @@ class Weapon(WeaponBase):
 
     class Config:
         orm_mode = True
-
 
 
 class QGBase(BaseModel):
