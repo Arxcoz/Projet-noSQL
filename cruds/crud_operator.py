@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-
 from appsql import models, schemas
+from fastapi.encoders import jsonable_encoder
 
 
 # GET Function
@@ -70,6 +70,52 @@ def delete_operator(db: Session, operator_id: int):
     db.delete(db_operator)
     db.commit()
     return db_operator
+
+
+
+# PATCH function
+def patch_operator(operator_id: int, db: Session, operator: schemas.OperatorUpdate):
+    db_operator = db.query(models.Operators).filter(models.Operators.id == operator_id).first()
+    if db_operator is None:
+        raise HTTPException(status_code=404, detail="Operator not found")
+    if operator.weapon_id is not None:
+        db_operator.weapon_id = operator.weapon_id
+    if operator.gq_id is not None:
+        db_operator.gq_id = operator.gq_id
+    if operator.name is not None:
+        db_operator.name = operator.name
+    if operator.nationality is not None:
+        db_operator.nationality = operator.nationality
+    if operator.mission_id is not None:
+        db_operator.mission_id = operator.mission_id
+    db.commit()
+    return db_operator
+
+
+# PUT function
+def put_operator(db: Session, operator: schemas.OperatorCreate, operator_id:int):
+    db_qg = db.query(models.GQ).filter(models.GQ.id == operator.gq_id).first()
+    if db_qg is None:
+        raise HTTPException(status_code=404, detail="Quarter General not found")
+    db_weapon = db.query(models.Weapons).filter(models.Weapons.id == operator.weapon_id).first()
+    if db_weapon is None:
+        raise HTTPException(status_code=404, detail="Weapon not found")
+    if operator.mission_id is not None:
+        db_mission = db.query(models.Missions).filter(models.Missions.id == operator.mission_id).first()
+        if db_mission is None:
+            raise HTTPException(status_code=404, detail="Mission not found")
+    db.commit()
+
+    db_operator = db.query(models.Operators).filter(models.Operators.id == operator_id).first()
+    if db_operator is None:
+        raise HTTPException(status_code=404, detail="Operator not found")
+    db_operator.gq_id = operator.gq_id
+    if operator.mission_id is not None:
+        db_operator.mission_id = operator.mission_id
+    db_operator.weapon_id = operator.weapon_id
+    db_operator.name = operator.name
+    db_operator.nationality = operator.nationality
+
 
 
 # PUT function

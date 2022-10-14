@@ -33,6 +33,20 @@ def delete_mission(db: Session, mission_id: int):
     return db_mission
 
 
+# PATCH function
+def patch_mission(mission_id: int, db: Session, mission: schemas.MissionUpdate):
+    db_mission = db.query(models.Missions).filter(models.Missions.id == mission_id).first()
+    if db_mission is None:
+        raise HTTPException(status_code=404, detail="Weapons not found")
+    if mission.target is not None:
+        db_mission.target = mission.target
+    if mission.vehicule_id is not None:
+        db_mission.vehicule_id = mission.vehicule_id
+    db.commit()
+    return db_mission
+
+
+
 # PUT function
 def put_mission(db: Session, mission: schemas.MissionCreate, mission_id: int):
     db_mission = db.query(models.Missions).filter(models.Missions.id == mission_id).first()
