@@ -29,8 +29,7 @@ def delete_weapon(db: Session, weapon_id: int):
     db.commit()
     return db_weapon
 
-
-# PARCH function
+# PATCH function
 def patch_weapon(weapon_id: int, db: Session, vehicule: schemas.VehiculeUpdate):
     db_vehicule = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
     if db_vehicule is None:

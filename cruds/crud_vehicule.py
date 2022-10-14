@@ -27,6 +27,7 @@ def delete_vehicule(db: Session, vehicule_id: int):
     return db_vehicule
 
 
+
 # PATCH function
 def patch_vehicule(vehicule_id: int, db: Session, vehicule: schemas.VehiculeUpdate):
     db_vehicule = db.query(models.Vehicules).filter(models.Vehicules.id == vehicule_id).first()
@@ -38,6 +39,7 @@ def patch_vehicule(vehicule_id: int, db: Session, vehicule: schemas.VehiculeUpda
         db_vehicule.type = vehicule.type
     db.commit()
     return db_vehicule
+
 
 
 # PUT function

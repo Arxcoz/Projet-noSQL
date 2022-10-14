@@ -29,7 +29,16 @@ def read_operator(operator_id: int, db: Session = Depends(get_db)):
     return db_operator
 
 
-# DELETE function
+# By Weapon
+@router.get("/operators/{weapon_id}", response_model=schemas.Operator)
+def read_operator_weapon(weapon_id: int, db: Session = Depends(get_db)):
+    db_weapon = crud_operator.get_operator_weapon(db, weapon_id=weapon_id)
+    if db_weapon is []:
+        raise HTTPException(status_code=404, detail="Operator not found")
+    return db_weapon
+
+
+# Function DELETE
 @router.delete("/operators/{operator_id}")
 def delete_operator(operator_id: int, db: Session = Depends(get_db)):
     db_operator = crud_operator.delete_operator(db, operator_id=operator_id)
@@ -42,3 +51,10 @@ def update_operator(operator_id: int, operator: schemas.OperatorUpdate, db: Sess
     db_operator = crud_operator.patch_operator(db = db, operator_id=operator_id,  operator=operator)
     return db_operator
 
+
+# Function PUT
+@router.put("/operators/{operator_id}", response_model=schemas.Operator)
+def change_operator(operator: schemas.OperatorCreate, operator_id: int, db: Session = Depends(get_db)):
+    db_operator = crud_operator.put_operator(db, operator_id=operator_id, operator=operator)
+
+    return db_operator

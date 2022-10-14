@@ -22,7 +22,6 @@ class OperatorCreate(OperatorBase):
     name: str
     nationality: str
 
-
 class Operator(OperatorBase):
     id: int
     weapon_id: int

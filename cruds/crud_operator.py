@@ -93,3 +93,29 @@ def put_operator(db: Session, operator: schemas.OperatorCreate, operator_id:int)
     db_operator.name = operator.name
     db_operator.nationality = operator.nationality
 
+
+# PUT function
+def put_operator(db: Session, operator: schemas.OperatorCreate, operator_id:int):
+    db_qg = db.query(models.GQ).filter(models.GQ.id == operator.gq_id).first()
+    if db_qg is None:
+        raise HTTPException(status_code=404, detail="Quarter General not found")
+    db_weapon = db.query(models.Weapons).filter(models.Weapons.id == operator.weapon_id).first()
+    if db_weapon is None:
+        raise HTTPException(status_code=404, detail="Weapon not found")
+    if operator.mission_id is not None:
+        db_mission = db.query(models.Missions).filter(models.Missions.id == operator.mission_id).first()
+        if db_mission is None:
+            raise HTTPException(status_code=404, detail="Mission not found")
+
+    db_operator = db.query(models.Operators).filter(models.Operators.id == operator_id).first()
+    if db_operator is None:
+        raise HTTPException(status_code=404, detail="Operator not found")
+    db_operator.gq_id = operator.gq_id
+    if operator.mission_id is not None:
+        db_operator.mission_id = operator.mission_id
+    db_operator.weapon_id = operator.weapon_id
+    db_operator.name = operator.name
+    db_operator.nationality = operator.nationality
+
+    db.commit()
+    return db_operator
