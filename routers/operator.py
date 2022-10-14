@@ -41,3 +41,4 @@ def delete_operator(operator_id: int, db: Session = Depends(get_db)):
 def update_operator(operator_id: int, operator: schemas.OperatorUpdate, db: Session = Depends(get_db)):
     db_operator = crud_operator.patch_operator(db = db, operator_id=operator_id,  operator=operator)
     return db_operator
+

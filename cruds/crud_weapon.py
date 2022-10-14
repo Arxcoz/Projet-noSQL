@@ -19,6 +19,9 @@ def create_weapon(db: Session, weapon: schemas.WeaponCreate):
 
 # DELETE function
 def delete_weapon(db: Session, weapon_id: int):
+    db_operator = db.query(models.Operators).filter(models.Operators.id == weapon_id).first()
+    if db_operator is None:
+        raise HTTPException(status_code=404, detail="Operator have this weapon" + str(db_operator))
     db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
     if db_weapon is None:
         raise HTTPException(status_code=404, detail="Weapon not found")
@@ -27,14 +30,25 @@ def delete_weapon(db: Session, weapon_id: int):
     return db_weapon
 
 
-# PATCH function
-def patch_operator_weapon(db: Session, operator_id: int, weapon_id: int | None):
-    db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
-    if db_weapon is None and weapon_id is not None:
-        raise HTTPException(status_code=404, detail="Weapon not found")
-    db_operator = db.query(models.Operators).filter(models.Operators.id == operator_id).first()
-    if db_operator is None:
-        raise HTTPException(status_code=404, detail="Operator not found")
-    db_operator.weapon_id = weapon_id
+# PARCH function
+def patch_weapon(weapon_id: int, db: Session, vehicule: schemas.VehiculeUpdate):
+    db_vehicule = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
+    if db_vehicule is None:
+        raise HTTPException(status_code=404, detail="Weapons not found")
+    if vehicule.name is not None:
+        db_vehicule.name = vehicule.name
+    if vehicule.type is not None:
+        db_vehicule.type = vehicule.type
     db.commit()
-    return db_operator
+    return db_vehicule
+
+
+# PUT function
+def put_weapon(db: Session, weapon: schemas.WeaponCreate, weapon_id:int):
+    db_weapon = db.query(models.Weapons).filter(models.Weapons.id == weapon_id).first()
+    if db_weapon is None:
+        raise HTTPException(status_code=404, detail="Weapon not found")
+    db_weapon.name = weapon.name
+    db_weapon.type = weapon.type
+    db.commit()
+    return db_weapon
