@@ -15,8 +15,8 @@ def get_operator(db: Session, operator_id: int):
 
 
 # Par ID d'arme
-def get_operator_weapon(db: Session, weapon_id: int):
-    return db.query(models.Operators).filter(models.Operators.weapon_id == weapon_id)
+def get_operator_weapon(db: Session, weapon_id: int, skip: int = 0, limit: int = 100):
+    return db.query(models.Operators).filter(models.Operators.weapon_id == weapon_id).offset(skip).limit(limit).all()
 
 
 # POST function

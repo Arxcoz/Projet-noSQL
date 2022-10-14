@@ -30,12 +30,12 @@ def read_operator(operator_id: int, db: Session = Depends(get_db)):
 
 
 # By Weapon
-@router.get("/operators/{weapon_id}", response_model=schemas.Operator)
+@router.get("/operators/{weapon_id}", response_model=list[schemas.Operator])
 def read_operator_weapon(weapon_id: int, db: Session = Depends(get_db)):
-    db_weapon = crud_operator.get_operator_weapon(db, weapon_id=weapon_id)
-    if db_weapon is []:
+    db_operator = crud_operator.get_operator_weapon(db, weapon_id=weapon_id)
+    if db_operator is []:
         raise HTTPException(status_code=404, detail="Operator not found")
-    return db_weapon
+    return db_operator
 
 
 # Function DELETE
